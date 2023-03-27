@@ -1,0 +1,6 @@
+import os
+
+# JWT
+AUTH_SECRET_KEY = os.getenv("AUTH_SECRET_KEY", "secret-key")
+AUTH_ALGORITHM = os.getenv("AUTH_ALGORITHM", "HS256")
+AUTH_ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("AUTH_ACCESS_TOKEN_EXPIRE_MINUTES", 60))
