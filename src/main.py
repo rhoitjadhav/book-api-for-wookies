@@ -1,8 +1,10 @@
 # Packages
+import os
 import uvicorn
 from fastapi import FastAPI
 
 # Modules
+from config import STATIC_FILES_PATH
 from apis.apis import router as api_router
 
 
@@ -14,6 +16,10 @@ async def startup_event():
     # Database
     import models  # noqa: F401
     print("Database created")
+
+    # Create static folder
+    if not os.path.exists(STATIC_FILES_PATH):
+        os.makedirs(STATIC_FILES_PATH)
 
 app.include_router(api_router)
 

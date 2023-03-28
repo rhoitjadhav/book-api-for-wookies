@@ -1,5 +1,8 @@
 import os
 
+# Static Files 
+STATIC_FILES_PATH = "static"
+
 # JWT
 AUTH_SECRET_KEY = os.getenv("AUTH_SECRET_KEY", "secret-key")
 AUTH_ALGORITHM = os.getenv("AUTH_ALGORITHM", "HS256")

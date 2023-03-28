@@ -41,6 +41,7 @@ class UsersUsecase:
             return ReturnValue(False, status.HTTP_401_UNAUTHORIZED, "Username or password is wrong")
 
         payload = {
+            "sub": user.username,
             "email": user.email,
             "username": user.username,
             "author_pseudonym": user.author_pseudonym
