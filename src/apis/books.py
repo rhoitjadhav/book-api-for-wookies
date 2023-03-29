@@ -111,6 +111,7 @@ def delete_book(
 def upload_cover_image(
     response: Response,
     file: UploadFile,
+    token_payload: UsersModel = Depends(Helper.get_token_payload),
     books_usecase: BooksUsecase = Depends(BooksUsecase),
     content_type: Union[str, None] = Header(default=None),
 ):

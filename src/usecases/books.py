@@ -19,6 +19,7 @@ from config import (
 class BooksUsecase:
     @staticmethod
     def _is_book_cover_image_exists(cover_image: str):
+        print(cover_image)
         file_path = os.path.join(STATIC_FILES_PATH, cover_image)
         return os.path.exists(file_path)
 

@@ -27,25 +27,25 @@ class ReturnValue:
     error: str = ""
     data: Any = field(default_factory=list)
 
-    def to_dict(self):
+    def to_dict(self) -> Dict:
         return asdict(self)
 
 
 class Helper:
     @staticmethod
-    def verify_password(plain_password: str, hashed_password: str):
+    def verify_password(plain_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(plain_password, hashed_password)
 
     @staticmethod
-    def dict_to_xml(data: Dict):
+    def dict_to_xml(data: Dict) -> AnyStr:
         return dicttoxml(data, attr_type=False)
 
     @staticmethod
-    def generate_hased_password(password: str):
+    def generate_hased_password(password: str) -> AnyStr:
         return pwd_context.hash(password)
 
     @staticmethod
-    def create_access_token(payload: Dict, secret_key: str, algo: str, expire: int = 15):
+    def create_access_token(payload: Dict, secret_key: str, algo: str, expire: int = 15) -> AnyStr:
         to_encode = payload.copy()
         expire = datetime.utcnow() + timedelta(minutes=expire)
         to_encode.update({"exp": expire})
@@ -58,9 +58,7 @@ class Helper:
                                       string.digits, k=l))
 
     @staticmethod
-    def get_token_payload(
-        token: str = Depends(oauth2_scheme)
-    ):
+    def get_token_payload(token: str = Depends(oauth2_scheme)) -> Dict:
         try:
             payload = jwt.decode(token, AUTH_SECRET_KEY,
                                  algorithms=[AUTH_ALGORITHM])
