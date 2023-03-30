@@ -10,11 +10,6 @@ AUTH_ACCESS_TOKEN_EXPIRE_MINUTES = int(
     os.getenv("AUTH_ACCESS_TOKEN_EXPIRE_MINUTES", 14400))
 
 # Postgresql
-POSTGRESQL_HOST = os.getenv("POSTGRESQL_HOST", "")
-POSTGRESQL_PORT = os.getenv("POSTGRESQL_PORT", "")
-POSTGRESQL_USER = os.getenv("POSTGRESQL_USER", "")
-POSTGRESQL_PASSWORD = os.getenv("POSTGRESQL_PASSWORD", "")
-POSTGRESQL_DB = os.getenv("POSTGRESQL_DB", "")
 SQLALCHEMY_DATABASE_URL = os.getenv(
-    "SQLALCHEMY_DATABASE_URL", "sqlite:///./database.db")
-# f"postgresql+psycopg2://{POSTGRESQL_USER}:{POSTGRESQL_PASSWORD}@{POSTGRESQL_HOST:POSTGRESQL_PORT}/{POSTGRESQL_DB}"
+    "SQLALCHEMY_DATABASE_URL", "sqlite:///./books.db")
+    # "SQLALCHEMY_DATABASE_URL", "postgresql+psycopg2://user:password@localhost:5432/books")

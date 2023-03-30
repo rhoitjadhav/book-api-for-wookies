@@ -45,14 +45,21 @@ python test_apis.py
 
 ## Deployment
 
-For deployment, we first need to build docker image. After successfully building image,
-we can now simply run the docker image in a container.
+### 1. Docker Compose
 
-Docker build and run commands:
+Docker compose will first build the api image using Dockerfile and then run the postgres and api containers
 
 ```commandline
-docker build -t test/test:latest -f Dockerfile .
-docker run -d --name backend-app -p 8000:8000 test/test:latest
+docker compose up
 ```
 
-In k8s folder, there are .yaml files for deploying the application on kubernetes cluster.
+### 2. Kubernetes
+
+For deployment in Kubernetes cluster you can refer the `k8s` folder for `.yaml` based configuration files.
+Assuming you have minikube cluster setup and a kubectl, then you can simply run the following commands to
+deploy the application and postgresql.
+
+```commandline
+kubectl apply -f k8s/api-deployment.yaml
+kubectl apply -f k8s/postgres-deployment.yaml
+```

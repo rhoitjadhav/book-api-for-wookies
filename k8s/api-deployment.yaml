@@ -18,16 +18,8 @@ spec:
           ports:
             - containerPort: 8000
           env:
-            - name: POSTGRESQL_HOST
-              value: "postgresql-service"
-            - name: POSTGRESQL_PORT
-              value: "5432"
-            - name: POSTGRESQL_USER
-              value: "user"
-            - name: POSTGRESQL_PASSWORD
-              value: "password"
-            - name: POSTGRESQL_DB
-              value: "books"
+            - name: SQLALCHEMY_DATABASE_URL
+              value: "postgresql+psycopg2://user:password@postgres-service:5432/books"
           resources:
             limits:
               cpu: "1500m"

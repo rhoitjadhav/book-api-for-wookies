@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgresql
+  name: postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgresql
+      app: postgres
   template:
     metadata:
       labels:
-        app: postgresql
+        app: postgres
     spec:
       containers:
-        - name: postgresql
+        - name: postgres
           image: postgres:latest
           env:
-            - name: POSTGRESQL_USER
+            - name: POSTGRES_USER
               value: user
-            - name: POSTGRESQL_PASSWORD
+            - name: POSTGRES_PASSWORD
               value: password
-            - name: POSTGRESQL_DB
+            - name: POSTGRES_DB
               value: books
           ports:
             - containerPort: 5432
@@ -34,12 +34,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgresql-service
+  name: postgres-service
 spec:
   selector:
-    app: postgresql
+    app: postgres
   ports:
-    - name: postgresql-port
+    - name: postgres-port
       port: 5432
       targetPort: 5432
   type: ClusterIP

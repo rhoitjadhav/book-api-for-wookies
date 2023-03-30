@@ -25,23 +25,23 @@ class TestUsersAPI(unittest.TestCase):
             'Content-Type': 'application/json'
         }
 
-        requests.post(url, headers=headers, data=payload)
+        requests.post(url, headers=headers, json=payload)
 
     def test_sign_up_status_code(self):
         url = f"{self._host}/api/users/sign-up"
         payload = {
             "first_name": "rohit",
             "last_name": "jadhav",
-            "email": "rohit@gmail.com",
-            "username": "rohit",
+            "email": Helper.generate_random_text(),
+            "username": Helper.generate_random_text(),
             "password": "1234",
-            "author_pseudonym": "rohit123"
+            "author_pseudonym": Helper.generate_random_text()
         }
         headers = {
             'Content-Type': 'application/json'
         }
 
-        response = requests.post(url, headers=headers, data=payload)
+        response = requests.post(url, headers=headers, json=payload)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
 
     def test_sign_in_and_match_access_token_payload_username(self):

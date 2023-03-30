@@ -11,19 +11,19 @@ class TestBooksAPI(unittest.TestCase):
     # Access token expire on 9 Apr 2023
     _access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyb2hpdCIsImVtYWlsIjoicm9oaXRAZ21haWwuY29tIiwidXNlcm5hbWUiOiJyb2hpdCIsImF1dGhvcl9wc2V1ZG9ueW0iOiJyb2hpdDEyMyIsImV4cCI6MTY4MTAxMzYxMX0.py7aIPrCxXgoaq9cXJ7eV4fpq6k89zW3N8R6xHosXJE"
 
-    def test_get_book_by_id(self):
-        url = f"{self._host}/api/books/1"
+    def test_list_books(self):
+        url = f"{self._host}/api/books"
         response = requests.get(url).json()
         self.assertTrue(response["status"])
 
     def test_create_book(self):
         url = f"{self._host}/api/books"
         payload = {
-            "title": "Bhagvadgit",
-            "description": "Bhagvadgit As it is",
-            "cover_image": "M5VRR1_requirements.txt",
+            "title": "MyTitle",
+            "description": "My Description",
+            "cover_image": "cover_image_test.txt",
             "price": 180,
-            "author": "A.C. Bhaktivedant Sri Prabhupada"
+            "author": "rohit123"
         }
         headers = {
             'Authorization': f'Bearer {self._access_token}',

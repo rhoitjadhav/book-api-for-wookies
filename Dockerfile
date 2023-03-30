@@ -4,11 +4,7 @@ FROM python:3.8.10
 EXPOSE 8000
 
 # Environment Variables
-ENV POSTGRESQL_HOST "localhost"
-ENV POSTGRESQL_PORT 5432
-ENV POSTGRESQL_USER "user"
-ENV POSTGRESQL_PASSWORD "password"
-ENV POSTGRESQL_DB "books"
+ENV SQLALCHEMY_DATABASE_URL "sqlite:///./books.db"
 
 # Copying source code
 COPY ./requirements.txt /book-api-for-wookies-txzflq/
