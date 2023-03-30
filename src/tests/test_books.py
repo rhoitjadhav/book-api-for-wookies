@@ -1,6 +1,6 @@
 # Packages
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 from mock_alchemy.mocking import AlchemyMagicMock
 
 
@@ -38,6 +38,23 @@ class TestBooks(unittest.TestCase):
         }
         response = self._books_usecase.list_books(self._db, 1, BooksModel)
         self.assertEqual("Mikal", response.data["author"])
+
+    def test_get_list_books_by_title(self):
+        author = "some-author"
+        book = BooksModel(**{
+            "description": "Influence People",
+            "title": "How to win Friends",
+            "price": 200,
+            "cover_image": "AIJ3P9_requirements.txt",
+            "id": 1,
+            "author": "some-author"
+        })
+        self._db.query(BooksModel).filter(
+            BooksModel.author.like(f"%{author}%")).limit(10).all.return_value = [book]
+
+        response = self._books_usecase.list_books_by_search_query(
+            self._db, BooksModel, author=author)
+        self.assertEqual("some-author", list(response.data)[0].author)
 
     @patch.object(BooksUsecase, "_is_book_cover_image_exists", return_value=True)
     def test_create_book_response_status(self, mock_image_exists):

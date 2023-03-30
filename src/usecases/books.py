@@ -48,6 +48,34 @@ class BooksUsecase:
         return ReturnValue(True, status.HTTP_200_OK, message="Books Fetched", data=books)
 
     @staticmethod
+    def list_books_by_search_query(
+        db: Session,
+        book_model: Type[BooksModel],
+        title: str = None,
+        description: str = None,
+        author: str = None,
+        limit: int = 10,
+        skip: int = 0
+    ):
+        books = []
+        if title:
+            books_with_title = db.query(book_model).filter(
+                book_model.title.like(f"%{title}%")).limit(limit).all()
+            books.extend(books_with_title)
+
+        if description:
+            books_with_description = db.query(book_model).filter(
+                book_model.description.like(f"%{description}%")).limit(limit).all()
+            books.extend(books_with_description)
+
+        if author:
+            books_with_author = db.query(book_model).filter(
+                book_model.author.like(f"%{author}%")).limit(limit).all()
+            books.extend(books_with_author)
+
+        return ReturnValue(True, status.HTTP_200_OK, message="Books Fetched", data=set(books))
+
+    @staticmethod
     def update_book(db: Session, book_id: int, book_schema: BooksUpdateSchema, book_model: Type[BooksModel]):
         db.query(book_model).filter(book_model.id ==
                                     book_id).update(book_schema.dict())

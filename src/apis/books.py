@@ -38,11 +38,20 @@ def get_book_by_id(
 @router.get("")
 def list_books(
     response: Response,
+    title: str = None,
+    description: str = None,
+    author: str = None,
     db: Session = Depends(get_db),
     books_usecase: BooksUsecase = Depends(BooksUsecase),
     content_type: Union[str, None] = Header(default=None),
 ):
-    result = books_usecase.list_books(db, BooksModel)
+    if title or description or author:
+        result = books_usecase.list_books_by_search_query(
+            db, BooksModel, title, description, author
+        )
+    else:
+        result = books_usecase.list_books(db, BooksModel)
+
     response.status_code = result.http_code
     if content_type == "application/xml":
         content = Helper.dict_to_xml(result.to_dict)
