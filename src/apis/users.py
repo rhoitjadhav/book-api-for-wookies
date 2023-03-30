@@ -28,6 +28,9 @@ def sign_in(
     user = UsersSignInSchema(username=form_data.username,
                              password=form_data.password)
     result = users_usecase.sign_in(db, user, UsersModel)
+    if not result.status:
+        return result
+
     response.status_code = result.http_code
     if content_type == "application/xml":
         content = Helper.dict_to_xml(result.data)

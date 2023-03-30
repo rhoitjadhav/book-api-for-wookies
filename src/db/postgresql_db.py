@@ -1,12 +1,8 @@
 # Packages
 import os
 from sqlalchemy import create_engine
+from config import SQLALCHEMY_DATABASE_URL
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
-
-SQLALCHEMY_DATABASE_URL = os.getenv(
-    "SQLALCHEMY_DATABASE_URL", "sqlite:///./database.db"
-)
-# 'postgresql+psycopg2://user:password@hostname/books'
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}, echo=True
