@@ -16,7 +16,21 @@ from config import (
 
 class UsersUsecase:
     @staticmethod
-    def _is_username_exists(db: Session, user_model: Type[UsersModel], username: str):
+    def _is_username_exists(
+        db: Session,
+        user_model: Type[UsersModel],
+        username: str
+    ) -> bool:
+        """Check if username exists in users table
+
+        Args:
+            db: sqlalchemy instance
+            user_model: UsersModel instance 
+            username: username 
+
+        Returns:
+            True if username exists otherwise False
+        """
         user = db.query(user_model).filter(
             user_model.username == username).first()
         if user:
@@ -25,7 +39,21 @@ class UsersUsecase:
         return False
 
     @staticmethod
-    def _is_email_exists(db: Session, user_model: Type[UsersModel], email: str):
+    def _is_email_exists(
+        db: Session,
+        user_model: Type[UsersModel],
+        email: str
+    ) -> bool:
+        """Check if username exists in users table
+
+        Args:
+            db: sqlalchemy instance
+            user_model: UsersModel instance 
+            email: email 
+
+        Returns:
+            True if username exists otherwise False
+        """
         user = db.query(user_model).filter(user_model.email == email).first()
         if user:
             return True
@@ -33,7 +61,21 @@ class UsersUsecase:
         return False
 
     @staticmethod
-    def sign_in(db: Session, user_schema: UsersSignInSchema, user_model: Type[UsersModel]) -> ReturnValue:
+    def sign_in(
+        db: Session,
+        user_schema: UsersSignInSchema,
+        user_model: Type[UsersModel]
+    ) -> ReturnValue:
+        """User Sign in
+
+        Args:
+            db: sqlalchemy instance
+            user_schema: user payload in schema format
+            user_model: UsersModel instance
+
+        Returns:
+            ReturnValue instance
+        """
         user = db.query(user_model).filter(
             user_model.username == user_schema.username).first()
 
@@ -51,7 +93,21 @@ class UsersUsecase:
         return ReturnValue(True, status.HTTP_200_OK, "User signed in", data={"access_token": token})
 
     @staticmethod
-    def sign_up(db: Session, user_schema: UsersSignUpSchema, user_model: Type[UsersModel]) -> ReturnValue:
+    def sign_up(
+        db: Session,
+        user_schema: UsersSignUpSchema,
+        user_model: Type[UsersModel]
+    ) -> ReturnValue:
+        """User sign up
+
+        Args:
+            db: sqlalchemy instance
+            user_schema: user payload in schema format
+            user_model: UsersModel instance
+
+        Returns:
+            True if sign up otherwise False 
+        """
         if UsersUsecase._is_username_exists(db, user_model, user_schema.username):
             return ReturnValue(False, status.HTTP_409_CONFLICT, "Username already exists")
 

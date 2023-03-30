@@ -1,47 +1,58 @@
-### Objective
+# WorkGenius-Challenge
 
-Your assignment is to implement a bookstore REST API using Python and any framework. While we will allow the use of any framework you prefer (incl. none at all) we would be grateful if you could complete the assignment in FastAPI or Django if you prefer.
+## Requirements
 
-### Brief
+- Python (3.8+)
+- FastAPI
+- Postgresql/Sqlite
 
-Lohgarra, a Wookie from Kashyyyk, has a great idea. She wants to build a marketplace that allows her and her friends to
-self-publish their adventures and sell them online to other Wookies. The profits would then be collected and donated to purchase medical supplies for an impoverished Ewok settlement.
+## Running Application
 
-### Tasks
+First, we need to create virtual environment and install dependencies.
+After successful installation, we will run the backend application.
+Following are the commands which does the same.
 
--   Implement assignment using:
-    -   Language: **Python**
-    -   Framework: **any framework** (preferred: FastAPI or Django)
--   Implement a REST API returning JSON or XML based on the `Content-Type` header
--   Implement a custom user model with a "author pseudonym" field
--   Implement a book model. Each book should have a title, description, author (your custom user model), cover image and price
-    -   Choose the data type for each field that makes the most sense
--   Provide an endpoint to authenticate with the API using username, password and return a JWT
--   Implement REST endpoints for the `/books` resource
-    -   No authentication required
-    -   Allows only GET (List/Detail) operations
-    -   Make the List resource searchable with query parameters
--   Provide REST resources for the authenticated user
-    -   Implement the typical CRUD operations for this resource
-    -   Implement an endpoint to unpublish a book (DELETE)
--   Implement tests as you see fit
-    -   These could be unit test as well as API tests
-    -   We would also count schema based validation as testing
+```commandline
+virtualenv -p python3 venv
+source venv/bin/activate
+pip install -r requirements.txt
+cd src
+python main.py
+```
 
-### Evaluation Criteria
+Output:
 
--   **Python** best practices
--   If you are using a framework make sure best practices are followed for models, configuration and tests
--   Sanity and usefulness of tests
--   Protect users' data
-    -   Make sure that users may only unpublish and change their own books
--   Bonus: Make sure the user _Darth Vader_ is unable to publish his work on Wookie Books
+```commandline
+INFO:     Started server process [16967]
+INFO:     Waiting for application startup.
+Database created
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+```
 
-### CodeSubmit
+Test whether the application is started properly or not, just hit the docs API link from below and 
+you should see the swagger api response on browser.
 
-Please organize, design, test and document your code as if it were
-going into production - then push your changes to the master branch. After you have pushed your code, you may submit the assignment on the assignment page.
+http://localhost:8000/docs
 
-All the best and happy coding,
+## Running Unit & API Tests
 
-The aidhere GmbH Team
+```commandline
+cd src
+python test.py
+python test_apis.py
+```
+
+## Deployment
+
+For deployment, we first need to build docker image. After successfully building image,
+we can now simply run the docker image in a container.
+
+Docker build and run commands:
+
+```commandline
+docker build -t test/test:latest -f Dockerfile .
+docker run -d --name backend-app -p 8000:8000 test/test:latest
+```
+
+In k8s folder, there are .yaml files for deploying the application on kubernetes cluster.

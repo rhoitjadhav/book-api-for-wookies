@@ -1,6 +1,6 @@
 # Packages
-from sqlalchemy.orm import Session
 from typing import Union
+from sqlalchemy.orm import Session
 from fastapi.routing import APIRouter
 from fastapi import Request, Depends, Response, Header, UploadFile
 
@@ -11,7 +11,6 @@ from models.books import BooksModel
 from models.users import UsersModel
 from db.postgresql_db import get_db
 from usecases.books import BooksUsecase
-from usecases.users import UsersUsecase
 from schemas.books import BooksAddSchema, BooksUpdateSchema
 
 

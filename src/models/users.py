@@ -3,7 +3,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # Modules
 from db.postgresql_db import Base
-# from models.books import BooksModel
 
 
 class UsersModel(Base):

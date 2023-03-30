@@ -1,9 +1,9 @@
 # Packages
-from sqlalchemy.orm import Session
 from typing import Union
+from sqlalchemy.orm import Session
 from fastapi.routing import APIRouter
+from fastapi import Depends, Response, Header
 from fastapi.security import OAuth2PasswordRequestForm
-from fastapi import Request, Depends, Response, Header
 
 
 # Modules
@@ -51,12 +51,3 @@ def sign_up(
         return Response(content=content, media_type="application/xml")
     else:
         return result
-
-
-def get_user(username: str):
-    return "abc" + username
-
-
-@router.post("/test")
-def test(username: str, user: str = Depends(get_user)):
-    return user

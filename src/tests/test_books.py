@@ -17,8 +17,8 @@ class TestBooks(unittest.TestCase):
         self._db = AlchemyMagicMock()
 
     def test_get_book_by_id_response_status(self):
-        self._db.query(BooksModel).filter(BooksModel.id ==
-                                          1).first.return_value = BooksModel
+        self._db.query(BooksModel).filter(
+            BooksModel.id == 1).first.return_value = BooksModel
         response = self._books_usecase.get_book_by_id(self._db, 1, BooksModel)
         self.assertTrue(response.status)
 
