@@ -192,6 +192,13 @@ class BooksUsecase:
         if not author_pseudonym == book.author:
             return ReturnValue(False, status.HTTP_401_UNAUTHORIZED, "Unauthorized operation")
 
+        if not BooksUsecase._is_book_cover_image_exists(book_schema.cover_image):
+            return ReturnValue(
+                False,
+                status.HTTP_404_NOT_FOUND,
+                "Cover image doesn't exists, please upload first"
+            )
+
         book.title = book_schema.title
         book.description = book_schema.description
         book.cover_image = book_schema.cover_image

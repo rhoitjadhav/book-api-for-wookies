@@ -5,9 +5,9 @@ from mock_alchemy.mocking import AlchemyMagicMock
 
 
 # Modules
-from schemas.books import BooksAddSchema
-from usecases.books import BooksUsecase
 from models.books import BooksModel
+from usecases.books import BooksUsecase
+from schemas.books import BooksAddSchema, BooksUpdateSchema
 
 
 class TestBooks(unittest.TestCase):
@@ -67,7 +67,7 @@ class TestBooks(unittest.TestCase):
         }
         book_schema = BooksAddSchema(**book)
         response = self._books_usecase.create_book(
-            self._db, book_schema, book_schema.author, BooksModel, 
+            self._db, book_schema, book_schema.author, BooksModel,
         )
         self.assertTrue(response.status)
 
@@ -104,5 +104,22 @@ class TestBooks(unittest.TestCase):
     def test_delete_book_and_check_book_not_exists_in_response_message(self):
         self._db.query(BooksModel).filter(BooksModel.id ==
                                           1).first.return_value = None
-        response = self._books_usecase.delete_book(self._db, 1, "Mikal", BooksModel)
+        response = self._books_usecase.delete_book(
+            self._db, 1, "Mikal", BooksModel)
         self.assertEqual("Book not exists", response.message)
+
+    def test_update_book_and_check_response_data(self):
+        book = {
+            "title": "How to win Friends",
+            "description": "Influence People",
+            "cover_image": "cover_image_test.txt",
+            "price": 201,
+        }
+        book_schema = BooksUpdateSchema(**book)
+        self._db.query(BooksModel).filter(
+            BooksModel.id == 1).first.return_value = BooksModel(**book, author="rohit123")
+
+        response = self._books_usecase.update_book(
+            self._db, 1, "rohit123", book_schema, BooksModel,
+        )
+        self.assertEqual(201, response.data.price)

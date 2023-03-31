@@ -2,6 +2,7 @@
 import os
 import uvicorn
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 # Modules
 from config import STATIC_FILES_PATH
@@ -9,6 +10,7 @@ from apis.apis import router as api_router
 
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.on_event("startup")
