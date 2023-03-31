@@ -6,6 +6,7 @@ from fastapi import Request, Depends, Response, Header, UploadFile
 
 
 # Modules
+from config import FORBIDDEN_USERS
 from utils.helper import Helper
 from models.books import BooksModel
 from models.users import UsersModel
@@ -68,7 +69,8 @@ def create_book(
     content_type: Union[str, None] = Header(default=None),
     token_payload: UsersModel = Depends(Helper.get_token_payload),
 ):
-    result = books_usecase.create_book(db, book, BooksModel)
+    author_pseudonym = token_payload["author_pseudonym"]
+    result = books_usecase.create_book(db, book, author_pseudonym, BooksModel)
     response.status_code = result.http_code
     if content_type == "application/xml":
         content = Helper.dict_to_xml(result.to_dict)
@@ -88,7 +90,10 @@ def update_book(
     content_type: Union[str, None] = Header(default=None),
 
 ):
-    result = books_usecase.update_book(db, book_id, book, BooksModel)
+    author_pseudonym = token_payload["author_pseudonym"]
+    result = books_usecase.update_book(
+        db, book_id, author_pseudonym, book, BooksModel
+    )
     response.status_code = result.http_code
     if content_type == "application/xml":
         content = Helper.dict_to_xml(result.to_dict)
@@ -106,7 +111,10 @@ def delete_book(
     books_usecase: BooksUsecase = Depends(BooksUsecase),
     content_type: Union[str, None] = Header(default=None),
 ):
-    result = books_usecase.delete_book(db, book_id, BooksModel)
+    author_pseudonym = token_payload["author_pseudonym"]
+    result = books_usecase.delete_book(
+        db, book_id, author_pseudonym, BooksModel
+    )
     response.status_code = result.http_code
     if content_type == "application/xml":
         content = Helper.dict_to_xml(result.to_dict)

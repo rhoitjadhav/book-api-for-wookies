@@ -67,7 +67,7 @@ class TestBooks(unittest.TestCase):
         }
         book_schema = BooksAddSchema(**book)
         response = self._books_usecase.create_book(
-            self._db, book_schema, BooksModel
+            self._db, book_schema, book_schema.author, BooksModel, 
         )
         self.assertTrue(response.status)
 
@@ -82,12 +82,27 @@ class TestBooks(unittest.TestCase):
         }
         book_schema = BooksAddSchema(**book)
         response = self._books_usecase.create_book(
-            self._db, book_schema, BooksModel
+            self._db, book_schema, book_schema.author, BooksModel
         )
         self.assertEqual(200, response.data.price)
+
+    @patch.object(BooksUsecase, "_is_book_cover_image_exists", return_value=True)
+    def test_create_book_with_user_Darth_Vader(self, mock_image_exists):
+        book = {
+            "title": "How to win Friends",
+            "description": "Influence People",
+            "cover_image": "cover_image_test.txt",
+            "price": 201,
+            "author": "Darth Vader"
+        }
+        book_schema = BooksAddSchema(**book)
+        response = self._books_usecase.create_book(
+            self._db, book_schema, book_schema.author, BooksModel
+        )
+        self.assertEqual(403, response.http_code)
 
     def test_delete_book_and_check_book_not_exists_in_response_message(self):
         self._db.query(BooksModel).filter(BooksModel.id ==
                                           1).first.return_value = None
-        response = self._books_usecase.delete_book(self._db, 1, BooksModel)
+        response = self._books_usecase.delete_book(self._db, 1, "Mikal", BooksModel)
         self.assertEqual("Book not exists", response.message)

@@ -13,6 +13,7 @@ from config import (
     AUTH_ALGORITHM,
     AUTH_ACCESS_TOKEN_EXPIRE_MINUTES,
     STATIC_FILES_PATH,
+    FORBIDDEN_USERS
 )
 
 
@@ -31,9 +32,24 @@ class BooksUsecase:
         return os.path.exists(file_path)
 
     @staticmethod
+    def _is_user_forbidden_from_creating_book(
+        author_pseudonym: str
+    ) -> bool:
+        """Check if the author is forbidden to create/publish the books
+
+        Args:
+            author_pseudonym: name of author
+
+        Returns:
+            True if author is forbidden otherwise False
+        """
+        return True if author_pseudonym in FORBIDDEN_USERS else False
+
+    @staticmethod
     def create_book(
         db: Session,
         book_schema: BooksAddSchema,
+        author_pseudonym: str,
         book_model: Type[BooksModel]
     ) -> ReturnValue:
         """Create book
@@ -41,11 +57,18 @@ class BooksUsecase:
         Args:
             db: sqlalchemy instance
             book_schema: book payload in schema format
+            author_pseudonym: author of the book
             book_model: BooksModel instance
 
         Returns:
             True if book created otherwise False
         """
+        if not author_pseudonym == book_schema.author:
+            return ReturnValue(False, status.HTTP_401_UNAUTHORIZED, "Author name mismatched")
+
+        if BooksUsecase._is_user_forbidden_from_creating_book(author_pseudonym):
+            return ReturnValue(False, status.HTTP_403_FORBIDDEN, "Forbidden access: Not allowed to publish books")
+
         if not BooksUsecase._is_book_cover_image_exists(book_schema.cover_image):
             return ReturnValue(
                 False,
@@ -146,6 +169,7 @@ class BooksUsecase:
     def update_book(
         db: Session,
         book_id: int,
+        author_pseudonym: str,
         book_schema: BooksUpdateSchema,
         book_model: Type[BooksModel]
     ) -> ReturnValue:
@@ -154,21 +178,33 @@ class BooksUsecase:
         Args:
             db: sqlalchemy instance
             book_id: book id
+            author_pseudonym: author of the book
             book_schema: book payload in schema format
             book_model: BooksModel instance
 
         Returns:
             True if book is updated otherwise False
         """
-        db.query(book_model).filter(book_model.id ==
-                                    book_id).update(book_schema.dict())
+        book = db.query(book_model).filter(book_model.id == book_id).first()
+        if not book:
+            return ReturnValue(False, status.HTTP_404_NOT_FOUND, "Book not exists")
+
+        if not author_pseudonym == book.author:
+            return ReturnValue(False, status.HTTP_401_UNAUTHORIZED, "Unauthorized operation")
+
+        book.title = book_schema.title
+        book.description = book_schema.description
+        book.cover_image = book_schema.cover_image
+        book.price = book_schema.price
         db.commit()
+
         return ReturnValue(True, status.HTTP_200_OK, "Book details updated", data=book_schema)
 
     @staticmethod
     def delete_book(
         db: Session,
         book_id: int,
+        author_pseudonym: str,
         book_model: Type[BooksModel]
     ) -> ReturnValue:
         """Delete book record
@@ -176,15 +212,19 @@ class BooksUsecase:
         Args:
             db: sqlalchemy instance
             book_id: book id
+            author_pseudonym: author of the book
             book_model: BooksModel instance
 
         Returns:
             True if book is deleted otherwise False
         """
-        result = BooksUsecase.get_book_by_id(db, book_id, book_model)
-        if not result.status:
-            return result
         book = db.query(book_model).filter(book_model.id == book_id).first()
+        if not book:
+            return ReturnValue(False, status.HTTP_404_NOT_FOUND, "Book not exists")
+
+        if not author_pseudonym == book.author:
+            return ReturnValue(False, status.HTTP_401_UNAUTHORIZED, "Unauthorized operation")
+
         db.delete(book)
         db.commit()
         return ReturnValue(True, status.HTTP_200_OK, "Book Deleted", data=book)

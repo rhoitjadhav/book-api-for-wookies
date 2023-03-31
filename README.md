@@ -30,10 +30,10 @@ INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 ```
 
-Test whether the application is started properly or not, just hit the docs API link from below and 
+Test whether the application is started properly or not, just hit the docs API link from below and
 you should see the swagger api response on browser.
 
-http://localhost:8000/docs
+<http://localhost:8000/docs>
 
 ## Running Unit & API Tests
 
