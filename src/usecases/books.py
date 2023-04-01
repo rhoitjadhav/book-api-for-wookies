@@ -163,7 +163,7 @@ class BooksUsecase:
                 book_model.author.like(f"%{author}%")).limit(limit).all()
             books.extend(books_with_author)
 
-        return ReturnValue(True, status.HTTP_200_OK, message="Books Fetched", data=set(books))
+        return ReturnValue(True, status.HTTP_200_OK, message="Books Fetched", data=list(set(books)))
 
     @staticmethod
     def update_book(
@@ -204,8 +204,8 @@ class BooksUsecase:
         book.cover_image = book_schema.cover_image
         book.price = book_schema.price
         db.commit()
-
-        return ReturnValue(True, status.HTTP_200_OK, "Book details updated", data=book_schema)
+        db.refresh(book)
+        return ReturnValue(True, status.HTTP_200_OK, "Book details updated", data=book)
 
     @staticmethod
     def delete_book(

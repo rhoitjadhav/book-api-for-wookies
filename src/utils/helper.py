@@ -1,9 +1,11 @@
 # Packages
+import json
 import string
 import random
-from typing import Optional, Dict, Any, AnyStr
+import xmltodict
+from typing import Optional, Dict, Any, AnyStr, Union, List
 from jose import JWTError, jwt, ExpiredSignatureError
-from fastapi import Depends, status
+from fastapi import Depends, status, Request
 from fastapi.security import OAuth2PasswordBearer
 from dataclasses import dataclass, field, asdict
 from passlib.context import CryptContext
@@ -58,16 +60,22 @@ class Helper:
         return pwd_context.verify(plain_password, hashed_password)
 
     @staticmethod
-    def dict_to_xml(data: Dict) -> AnyStr:
+    def dict_to_xml(
+        data: Dict,
+        root: bool = True,
+        custom_root: str = "root"
+    ) -> AnyStr:
         """Converts dict object into xml string
 
         Args:
             data: dict object
+            root: keep the root or not
+            custom_root: name of root of xml tree
 
         Returns:
             XML format string
         """
-        return dicttoxml(data, attr_type=False)
+        return dicttoxml(data, root, custom_root, attr_type=False)
 
     @staticmethod
     def generate_hased_password(password: str) -> AnyStr:
@@ -153,3 +161,26 @@ class Helper:
             raise JWTTokenError(
                 status.HTTP_401_UNAUTHORIZED, "Invalid token"
             )
+
+    @staticmethod
+    async def convert_request_body_to_dict(request: Request, content_type: str, key: str = None):
+        body = (await request.body()).decode()
+        if content_type == "application/xml":
+            return xmltodict.parse(body)[key]
+        else:
+            return json.loads(body)
+
+    @staticmethod
+    def model_to_dict(data: Union[List, Dict]):
+        if isinstance(data, list):
+            result = []
+
+            for d in data:
+                r = d.to_dict()
+                result.append(r)
+
+        else:
+
+            result = data.to_dict()
+
+        return result

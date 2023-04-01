@@ -17,3 +17,6 @@ class UsersModel(Base):
     author_pseudonym: Mapped[str] = mapped_column(unique=True, nullable=True)
     is_active: Mapped[bool] = mapped_column(default=True)
     books: Mapped["BooksModel"] = relationship(back_populates="users")
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

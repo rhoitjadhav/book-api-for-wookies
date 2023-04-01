@@ -1,15 +1,41 @@
 # Packages
 import os
+import json
 import uvicorn
-from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, status, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import PlainTextResponse, JSONResponse, Response
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from schemas.books import BooksAddSchema
+from pydantic.error_wrappers import ValidationError
 
 # Modules
+from utils.helper import Helper
 from config import STATIC_FILES_PATH
 from apis.apis import router as api_router
 
 
 app = FastAPI()
+
+
+# Validation Error Handler
+@app.exception_handler(ValidationError)
+async def validation_exception_handler(request: Request, exc: ValidationError):
+    content_type = request.headers.get("Content-Type")
+    if content_type == "application/xml":
+        json_response = jsonable_encoder(
+            {"detail": exc.errors()})
+        return Response(content=Helper.dict_to_xml(json_response, False),
+                        media_type="application/xml",
+                        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content=jsonable_encoder(
+            {"detail": exc.errors()}),
+    )
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 

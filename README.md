@@ -47,7 +47,7 @@ python test_apis.py
 
 ### 1. Docker Compose
 
-Docker compose will first build the api image using Dockerfile and then run the postgres and api containers
+Docker compose will build the api image using Dockerfile if its not exists in the repository otherwise use the already built image from repository and then run the postgres and api containers.
 
 ```commandline
 docker compose up
