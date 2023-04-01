@@ -116,7 +116,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"first_name\": \"rohit\",\n    \"last_name\": \"jadhav\",\n    \"email\": \"rohit@gmail.com\",\n    \"username\": \"rohit\",\n    \"password\": \"1234\",\n    \"author_pseudonym\": \"rohit123\"\n}",
+							"raw": "{\n    \"first_name\": \"Darth\",\n    \"last_name\": \"Vader\",\n    \"email\": \"darth_vader@gmail.com\",\n    \"username\": \"darth_vader\",\n    \"password\": \"1234\",\n    \"author_pseudonym\": \"Darth Vader\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -364,6 +364,75 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"title\": \"How to win Friends\",\n    \"description\": \"Influence People\",\n    \"cover_image\": \"cover_image_test.txt\",\n    \"price\": 201,\n    \"author\": \"rohit123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create (Darth Vader)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "username",
+									"value": "darth_vader",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8000/api/users/sign-in",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "password_credentials",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"How to win Friends\",\n    \"description\": \"Influence People\",\n    \"cover_image\": \"cover_image_test.txt\",\n    \"price\": 201,\n    \"author\": \"Darth Vader\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
