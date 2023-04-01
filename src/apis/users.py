@@ -3,7 +3,6 @@ from typing import Union
 from sqlalchemy.orm import Session
 from fastapi.routing import APIRouter
 from fastapi import Depends, Response, Header, Request
-from fastapi.security import OAuth2PasswordRequestForm
 
 
 # Modules
@@ -19,24 +18,33 @@ router = APIRouter(prefix="/users")
 
 @router.post("/sign-in")
 async def sign_in(
+    request: Request,
     response: Response,
-    form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
     users_usecase: UsersUsecase = Depends(UsersUsecase),
     content_type: Union[str, None] = Header(default=None),
 ):
-    user = UsersSignInSchema(username=form_data.username,
-                             password=form_data.password)
+    if "form" in content_type:
+        payload = dict(await request.form())
+
+    else:
+        payload = await Helper.convert_request_body_to_dict(
+            request, content_type, "user"
+        )
+
+    user = UsersSignInSchema(**payload)
     result = users_usecase.sign_in(db, user, UsersModel)
     response.status_code = result.http_code
-    if not result.status:
-        return result
+
+    result_dict = result.to_dict()
+    result_dict.update(result_dict["data"])
+    result_dict["data"] = []
 
     if content_type == "application/xml":
-        content = Helper.dict_to_xml(result.data)
+        content = Helper.dict_to_xml(result_dict)
         return Response(content=content, media_type="application/xml", status_code=result.http_code)
 
-    return result.data
+    return result_dict
 
 
 @router.post("/sign-up")
