@@ -12,6 +12,23 @@ class TestBooksAPI(unittest.TestCase):
     # Access token expire on 9 Apr 2023
     _access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyb2hpdCIsImVtYWlsIjoicm9oaXRAZ21haWwuY29tIiwidXNlcm5hbWUiOiJyb2hpdCIsImF1dGhvcl9wc2V1ZG9ueW0iOiJyb2hpdDEyMyIsImV4cCI6MTY4MTAxMzYxMX0.py7aIPrCxXgoaq9cXJ7eV4fpq6k89zW3N8R6xHosXJE"
 
+    @classmethod
+    def setUpClass(cls):
+        url = f"{cls._host}/api/users/sign-up"
+        payload = {
+            "first_name": "rohit",
+            "last_name": "jadhav",
+            "email": "rohit@gmail.com",
+            "username": "rohit",
+            "password": "1234",
+            "author_pseudonym": "rohit123"
+        }
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
+        requests.post(url, headers=headers, json=payload)
+
     def test_list_books(self):
         url = f"{self._host}/api/books"
         response = requests.get(url).json()
