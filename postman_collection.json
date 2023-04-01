@@ -14,6 +14,66 @@
 						"method": "POST",
 						"header": [],
 						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"rohit\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/sign-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign-in (xml)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<user>\n<username>rohit</username>\n<password>1234</password>\n</user>\n",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/sign-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign-in (form)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
 							"mode": "formdata",
 							"formdata": [
 								{
@@ -182,7 +242,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/api/books?title=i",
+							"raw": "http://localhost:8000/api/books",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -195,7 +255,8 @@
 							"query": [
 								{
 									"key": "title",
-									"value": "i"
+									"value": "i",
+									"disabled": true
 								},
 								{
 									"key": "description",
