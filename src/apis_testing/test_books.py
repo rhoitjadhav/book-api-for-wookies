@@ -51,7 +51,7 @@ class TestBooksAPI(unittest.TestCase):
         response = requests.post(url, headers=headers, json=payload).json()
         self.assertTrue(response["status"])
 
-    def test_upload_cover_image_with_empty_image(self):
+    def test_upload_cover_image_with_empty_schema_payload(self):
         url = f"{self._host}/api/books/upload"
         headers = {
             'Authorization': f'Bearer {self._access_token}',
@@ -61,7 +61,7 @@ class TestBooksAPI(unittest.TestCase):
         self.assertEqual(status.HTTP_422_UNPROCESSABLE_ENTITY,
                          response.status_code)
 
-    def test_create_book_with_missing_author_in_payload(self):
+    def test_create_book_with_missing_schema_in_payload(self):
         url = f"{self._host}/api/books"
         payload = {
             "title": "Bhagvadgit",
