@@ -20,7 +20,7 @@ from apis.apis import router as api_router
 app = FastAPI()
 
 
-# Validation Error Handler
+# Custom Validation Error Handler
 @app.exception_handler(ValidationError)
 async def validation_exception_handler(request: Request, exc: ValidationError):
     content_type = request.headers.get("Content-Type")

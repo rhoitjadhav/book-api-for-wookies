@@ -166,7 +166,21 @@ class Helper:
             )
 
     @staticmethod
-    async def convert_request_body_to_dict(request: Request, content_type: str, key: str = None):
+    async def convert_request_body_to_dict(
+        request: Request,
+        content_type: str,
+        key: str = None
+    ) -> Dict:
+        """Coverts request body data to dictionary
+
+        Args:
+            request: Request instance
+            content_type: content type (e.g. application/json)
+            key: root node name of xml tree. Defaults to None.
+
+        Returns:
+            Dictonary object
+        """
         body = (await request.body()).decode()
         if content_type == "application/xml":
             return xmltodict.parse(body)[key]
@@ -175,6 +189,14 @@ class Helper:
 
     @staticmethod
     def model_to_dict(data: Union[List, Dict]):
+        """Converts Sqlalchemy Model to dictionary object
+
+        Args:
+            data: List or dictionary of Sqlalchemy Model
+
+        Returns:
+            Dictionary object
+        """
         if isinstance(data, list):
             result = []
 
