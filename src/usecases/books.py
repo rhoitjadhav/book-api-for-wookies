@@ -9,9 +9,6 @@ from models.books import BooksModel
 from utils.helper import ReturnValue, Helper
 from schemas.books import BooksAddSchema, BooksUpdateSchema
 from config import (
-    AUTH_SECRET_KEY,
-    AUTH_ALGORITHM,
-    AUTH_ACCESS_TOKEN_EXPIRE_MINUTES,
     STATIC_FILES_PATH,
     FORBIDDEN_USERS
 )

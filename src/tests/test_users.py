@@ -12,6 +12,8 @@ from schemas.users import UsersSignUpSchema, UsersSignInSchema
 
 
 class TestUsers(unittest.TestCase):
+    # Note: There will lot of other test cases, however for the simplicity
+    # there few of them that will be helpful to test the code.
     _users_usecase = UsersUsecase()
 
     def setUp(self) -> None:

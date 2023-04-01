@@ -3,18 +3,21 @@ import json
 import string
 import random
 import xmltodict
-from typing import Optional, Dict, Any, AnyStr, Union, List
-from jose import JWTError, jwt, ExpiredSignatureError
-from fastapi import Depends, status, Request
-from fastapi.security import OAuth2PasswordBearer
-from dataclasses import dataclass, field, asdict
-from passlib.context import CryptContext
 from dicttoxml import dicttoxml
 from datetime import datetime, timedelta
+from passlib.context import CryptContext
+from fastapi import Depends, status, Request
+from dataclasses import dataclass, field, asdict
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt, ExpiredSignatureError
+from typing import Optional, Dict, Any, AnyStr, Union, List
 
 # Modules
-from config import AUTH_ALGORITHM, AUTH_SECRET_KEY
 from utils.exceptions import JWTTokenError
+from config import (
+    AUTH_ALGORITHM,
+    AUTH_SECRET_KEY
+)
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

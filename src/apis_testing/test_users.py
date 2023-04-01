@@ -8,6 +8,8 @@ from utils.helper import Helper
 
 
 class TestUsersAPI(unittest.TestCase):
+    # Note: There will lot of other test cases, however for the simplicity
+    # there few of them that will be helpful to test the code.
     _host = "http://localhost:8000"
 
     @classmethod

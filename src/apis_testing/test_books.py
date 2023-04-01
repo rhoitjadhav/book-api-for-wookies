@@ -1,11 +1,12 @@
 # Packages
-import json
 import requests
 import unittest
 from fastapi import status
 
 
 class TestBooksAPI(unittest.TestCase):
+    # Note: There will lot of other test cases, however for the simplicity
+    # there few of them that will be helpful to test the code.
     _host = "http://localhost:8000"
 
     # Access token expire on 9 Apr 2023

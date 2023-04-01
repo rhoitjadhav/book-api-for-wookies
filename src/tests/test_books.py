@@ -11,6 +11,8 @@ from schemas.books import BooksAddSchema, BooksUpdateSchema
 
 
 class TestBooks(unittest.TestCase):
+    # Note: There will lot of other test cases, however for the simplicity
+    # there few of them that will be helpful to test the code.
     _books_usecase = BooksUsecase()
 
     def setUp(self) -> None:

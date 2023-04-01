@@ -78,6 +78,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "sign-up (xml)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<user>\n<first_name>rohit</first_name>\n<last_name>jadhav</last_name>\n<email>rohit@gmail.com</email>\n<username>rohit</username>\n<password>1234</password>\n<author_pseudonym>rohit123</author_pseudonym>\n</user>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/sign-up",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -86,6 +116,9 @@
 			"item": [
 				{
 					"name": "get_by_id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -106,9 +139,11 @@
 					"response": []
 				},
 				{
-					"name": "list",
+					"name": "get_by_id (xml)",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
 					},
 					"request": {
 						"method": "GET",
@@ -116,19 +151,78 @@
 							{
 								"key": "Content-Type",
 								"value": "application/xml",
-								"type": "default",
-								"disabled": true
+								"type": "default"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "xml"
-								}
+						"url": {
+							"raw": "http://localhost:8000/api/books/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
 							}
-						},
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/books?title=i",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "i"
+								},
+								{
+									"key": "description",
+									"value": "people",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "rohit123",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list (xml)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/xml",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:8000/api/books",
 							"protocol": "http",
@@ -231,6 +325,75 @@
 					"response": []
 				},
 				{
+					"name": "create (xml)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8000/api/users/sign-in",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "rohit",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "password_credentials",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<book>\n<title>How to win friends</title>\n<description>Influence People</description>\n<cover_image>cover_image_test.txt</cover_image>\n<price>200</price>\n<author>rohit123</author>\n</book>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "update",
 					"request": {
 						"auth": {
@@ -285,7 +448,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/books/3",
+							"raw": "http://localhost:8000/api/books/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -294,7 +457,77 @@
 							"path": [
 								"api",
 								"books",
-								"3"
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update (xml)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "token_rohit1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "rohit1",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8000/api/users/sign-in",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "password_credentials",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<book>\n<title>How to win friends</title>\n<description>Influence People</description>\n<cover_image>cover_image_test.txt</cover_image>\n<price>203</price>\n</book>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/books/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books",
+								"1"
 							]
 						}
 					},
@@ -345,15 +578,6 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "http://localhost:8000/api/books/1",
 							"protocol": "http",
@@ -365,6 +589,73 @@
 								"api",
 								"books",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete (xml)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8000/api/users/sign-in",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "rohit",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "password_credentials",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/xml",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/books/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"books",
+								"2"
 							]
 						}
 					},
