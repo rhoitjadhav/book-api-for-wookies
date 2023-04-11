@@ -1,5 +1,5 @@
 # Packages
-from typing import Union
+from typing import Union, Dict
 from sqlalchemy.orm import Session
 from fastapi.routing import APIRouter
 from fastapi import Request, Depends, Response, Header, UploadFile, status
@@ -8,7 +8,6 @@ from fastapi import Request, Depends, Response, Header, UploadFile, status
 # Modules
 from utils.helper import Helper
 from models.books import BooksModel
-from models.users import UsersModel
 from db.postgresql_db import get_db
 from usecases.books import BooksUsecase
 from schemas.books import BooksAddSchema, BooksUpdateSchema
@@ -70,7 +69,7 @@ async def create_book(
     db: Session = Depends(get_db),
     books_usecase: BooksUsecase = Depends(BooksUsecase),
     content_type: Union[str, None] = Header(default=None),
-    token_payload: UsersModel = Depends(Helper.get_token_payload),
+    token_payload: Dict = Depends(Helper.get_token_payload),
 ):
     body_dict = await Helper.convert_request_body_to_dict(
         request, content_type, "book"
@@ -95,7 +94,7 @@ async def update_book(
     request: Request,
     response: Response,
     book_id: int,
-    token_payload: UsersModel = Depends(Helper.get_token_payload),
+    token_payload: Dict = Depends(Helper.get_token_payload),
     db: Session = Depends(get_db),
     books_usecase: BooksUsecase = Depends(BooksUsecase),
     content_type: Union[str, None] = Header(default=None),
@@ -122,7 +121,7 @@ async def update_book(
 async def delete_book(
     response: Response,
     book_id: int,
-    token_payload: UsersModel = Depends(Helper.get_token_payload),
+    token_payload: Dict = Depends(Helper.get_token_payload),
     db: Session = Depends(get_db),
     books_usecase: BooksUsecase = Depends(BooksUsecase),
     content_type: Union[str, None] = Header(default=None),
@@ -144,7 +143,7 @@ async def delete_book(
 async def upload_cover_image(
     response: Response,
     file: UploadFile,
-    token_payload: UsersModel = Depends(Helper.get_token_payload),
+    token_payload: Dict = Depends(Helper.get_token_payload),
     books_usecase: BooksUsecase = Depends(BooksUsecase),
     content_type: Union[str, None] = Header(default=None),
 ):
