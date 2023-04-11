@@ -50,6 +50,7 @@ uvicorn = "0.21.1"
 virtualenv = "20.21.0"
 xmltodict = "0.13.0"
 xsdata = "22.12"
+sqlalchemy-utils = "^0.40.0"
 
 
 [build-system]
