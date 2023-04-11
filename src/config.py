@@ -12,6 +12,6 @@ AUTH_ACCESS_TOKEN_EXPIRE_MINUTES = int(
 # Postgresql
 SQLALCHEMY_DATABASE_URL = os.getenv(
     "SQLALCHEMY_DATABASE_URL", "sqlite:///./books.db")
-    # "SQLALCHEMY_DATABASE_URL", "postgresql+psycopg2://user:password@localhost:5432/books")
+    # "SQLALCHEMY_DATABASE_URL", "postgresql+psycopg2://postgres:postgres@localhost:5432/books")
 
 FORBIDDEN_USERS = {"Darth Vader"}
