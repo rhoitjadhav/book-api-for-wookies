@@ -171,7 +171,7 @@ class Helper:
         content_type: str,
         key: str = None
     ) -> Dict:
-        """Coverts request body data to dictionary
+        """Coverts request body data to dictionary based on content-type
 
         Args:
             request: Request instance
@@ -179,7 +179,7 @@ class Helper:
             key: root node name of xml tree. Defaults to None.
 
         Returns:
-            Dictonary object
+            Dictionary object
         """
         body = (await request.body()).decode()
         if content_type == "application/xml":
