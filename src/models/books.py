@@ -13,7 +13,7 @@ class BooksModel(Base):
     title: Mapped[str] = mapped_column()
     description: Mapped[str] = mapped_column()
     cover_image: Mapped[str] = mapped_column()
-    price: Mapped[int] = mapped_column()
+    price: Mapped[float] = mapped_column()
     author: Mapped[str] = mapped_column(ForeignKey("users.author_pseudonym"))
     users: Mapped["UsersModel"] = relationship(back_populates="books")
 
